@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import products.Product;
-import customers.Customer;
-import manager.FarmerCatalog;
 import manager.Catalog;
 import order.Order;
 import reports.*;
@@ -36,6 +34,11 @@ public class FarmerManager implements Finterface {
 		List<Farmer> newFList = farmers;
 		return newFList;
 	}//done
+	
+	public List<Farmer> viewAllFarmers(){
+		List<Farmer> newFList = farmers;
+		return newFList;
+	}
 
 	public double viewDeliveryCharge(int fid) {
 		Farmer x = findByID(fid);
@@ -80,8 +83,26 @@ public class FarmerManager implements Finterface {
 		List<Order> rl = findByID(fid).getOrderList();
 		return rl;
 	}	
-	public Report getReport(int fid) {
-		return null;
+	
+	public Report getReport(int fid, int frid) {
+		Report r = new Report();
+		if(frid == 701){
+			FarmerReport fr = new DeliverTodayReport(fid, frid);
+			r = fr;
+		}
+		else if(frid == 702){
+			FarmerReport fr = new DeliverTomorrowReport(fid,frid);
+			r = fr;
+		}
+		else if(frid == 703){
+			FarmerReport fr = new FarmerRevenueReport(fid, frid);
+			r = fr;
+		}
+		return r;
+	}
+	
+	public FarmerReport[] getAllReports(){
+		return this.fra;
 	}
 	
 

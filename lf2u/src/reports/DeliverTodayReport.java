@@ -1,5 +1,6 @@
 package reports;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,10 +10,9 @@ import farmers.*;
 import order.*;
 
 public class DeliverTodayReport extends FarmerReport{
-	
-	static DateFormat df = new SimpleDateFormat("yyyyMMdd");
-	static Date dobj = new Date();
-	static String sd = df.format(dobj);
+	DateFormat df = new SimpleDateFormat("yyyyMMdd");
+	Date today = Calendar.getInstance().getTime();
+	String sd = df.format(today);
 	private List<OrderReport> orlist;
 	private Finterface fi = new FarmerManager();
 	
@@ -21,7 +21,7 @@ public class DeliverTodayReport extends FarmerReport{
 		orlist = new ArrayList<OrderReport>();
 		List<Order> ol = fi.getOrderList(fid);
 		for(Order o: ol){
-			if(o.getPlannedDate() == sd){
+			if(o.getPlannedDate().equals(sd)){
 				OrderReport or = new OrderReport(o);
 				orlist.add(or);
 			}

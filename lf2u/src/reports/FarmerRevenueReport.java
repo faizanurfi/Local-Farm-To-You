@@ -4,20 +4,22 @@ import farmers.*;
 import order.*;
 import java.util.List;
 
-public class RevenueReport extends FarmerReport{
+public class FarmerRevenueReport extends FarmerReport{
 	
 	Finterface fi = new FarmerManager();
 	
 	private String start_date;
 	private String end_date;
+	private int f;
 	private int orders_placed = 0;
 	private int orders_cancelled = 0;
 	private int orders_delivered = 0;
 	private double products_revenue = 0.0;
 	private double delivery_revenue = 0.0;
 	
-	public RevenueReport(int fid, int frid){
+	public FarmerRevenueReport(int fid, int frid){
 		super(frid, "Revenue Report");
+		this.f = fid;
 		List<Order> ol = fi.getOrderList(fid);
 		for(Order o: ol){
 			int oi = Integer.parseInt(o.getDate());
