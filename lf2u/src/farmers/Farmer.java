@@ -5,6 +5,7 @@ import manager.FarmerCatalog;
 import java.util.List;
 import java.util.ArrayList;
 import order.Order;
+import reports.*;
 
 public class Farmer {
 	private int id;
@@ -14,8 +15,9 @@ public class Farmer {
 	private String email;
 	private Farm farm;
 	private double dCharge = 0.0;
-	private FarmerCatalog fCat;
-	private List<Order> fol;
+	private FarmerCatalog fCat; // each farmer has a farmer catalog/farmer store
+	private List<Order> fol; // each farmer has a list of orders
+	private List<FarmerReport> frl; // each farmer has a list of reports
 	
 	public Farmer(){
 		
@@ -26,8 +28,9 @@ public class Farmer {
 		this.phone = p;
 		this.email = e;
 		this.farm = f;
-		fCat = new FarmerCatalog();
-		fol = new ArrayList<Order>();
+		this.fCat = new FarmerCatalog();
+		this.fol = new ArrayList<Order>();
+		this.frl = new ArrayList<FarmerReport>();
 		id = sid;
 		sid++;
 	}
@@ -62,6 +65,10 @@ public class Farmer {
 	
 	public List<Order> getOrderList(){
 		return this.fol;
+	}
+	
+	public List<FarmerReport> getFarmerReportList(){
+		return this.frl;
 	}
 	
 	public void setDeliveryCharge(double dc){

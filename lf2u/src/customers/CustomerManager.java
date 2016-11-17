@@ -47,19 +47,22 @@ public class CustomerManager implements Cinterface {
 	public void cancelOrder(int cid, int oid) {
 		Customer x = findByID(cid);
 		List<Order> ol = x.getOrderList();
-		int index = 0;
+		Order ox = new Order();
 		for(Order o: ol){
 			if(o.getID() == oid){
-				ol.remove(index);
+				o.setOpenStatus(false);
+				ox = o;
 				break;
 			}
-			index++;
 		}
 		x.setOrderList(ol);
-		setToID(cid, x);
+		setToID(cid, x); // Update Customer Order List
+		
+		Finterface fi = new FarmerManager();
+		fi.setOrderToID(oid, ox); // Update Farmer order queue
 	}//done
 	
-	private Customer findByID(int cid){
+	public Customer findByID(int cid){
 		Customer x = new Customer();
 		for(Customer c: customers){
 			if(c.getID() == cid){
@@ -70,7 +73,7 @@ public class CustomerManager implements Cinterface {
 		return x;
 	}
 	
-	private void setToID(int cid, Customer x){
+	public void setToID(int cid, Customer x){
 		for(Customer c: customers){
 			if(c.getID() == cid){
 				c = x;
@@ -80,7 +83,7 @@ public class CustomerManager implements Cinterface {
 		}
 	}
 	
-	private Order findOrder(int oid, List<Order> olist){
+	public Order findOrder(int oid, List<Order> olist){
 		Order x = new Order();
 		for(Order o: olist){
 			if(o.getID() == oid){

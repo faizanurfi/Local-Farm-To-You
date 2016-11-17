@@ -4,6 +4,7 @@ import products.Product;
 import manager.FarmerCatalog;
 import manager.Catalog;
 import order.Order;
+import reports.*;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public interface Finterface {
 	Report getReport(int fid);
 	double viewDeliveryCharge(int fid);
 	void updateDeliveryCharge(int fid, double dc);
+	Farmer findByID(int fid);
+	void setToID(int fid, Farmer x);
+	void setOrderToID(int oid, Order o);
 }

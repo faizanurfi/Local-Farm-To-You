@@ -12,6 +12,9 @@ public interface Cinterface {
 	List<Order> viewOrders(int cid);
 	Order viewOrderByID(int cid, int oid);
 	void cancelOrder(int cid, int oid);
+	Customer findByID(int cid);
+	void setToID(int cid, Customer c);
+	Order findOrder(int oid, List<Order> ol);
 	
 	//List<Farmer> getFarmersThatDeliver();
 	//List<Product> getFarmerProducts();

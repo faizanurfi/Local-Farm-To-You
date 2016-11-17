@@ -2,11 +2,10 @@ package reports;
 
 public class FarmerReport extends Report{
 	final String name;
-	final String deliveryDate;
-	final int frid = 701;
+	private int frid;
 	
-	public FarmerReport(String n, String dd){
+	public FarmerReport(int f, String n){
 		this.name = n;
-		this.deliveryDate = dd;
+		this.frid = f;
 	}
 }

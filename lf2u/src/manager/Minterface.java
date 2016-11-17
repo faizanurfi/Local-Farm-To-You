@@ -1,6 +1,8 @@
 package manager;
 
 import products.Product;
+import reports.*;
+
 import java.util.List;
 
 public interface Minterface {

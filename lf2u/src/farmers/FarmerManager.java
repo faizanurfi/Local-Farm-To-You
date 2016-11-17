@@ -1,8 +1,6 @@
 package farmers;
 
 import java.util.ArrayList;
-
-
 import java.util.List;
 
 import products.Product;
@@ -10,9 +8,15 @@ import customers.Customer;
 import manager.FarmerCatalog;
 import manager.Catalog;
 import order.Order;
+import reports.*;
 
 public class FarmerManager implements Finterface {
 	private static List<Farmer> farmers = new ArrayList<Farmer>();
+	private FarmerReport fr1 = new FarmerReport(701, "Orders to deliver today");
+	private FarmerReport fr2 = new FarmerReport(702, "Orders to deliver tomorrow");
+	private FarmerReport fr3 = new FarmerReport(703, "Revenue Report");
+	private FarmerReport fr4 = new FarmerReport(704, "Orders delivery report");
+	private FarmerReport [] fra = {fr1, fr2, fr3, fr4};
 	
 	public void createAccount(Farmer f) {
 		Farmer x = f;
@@ -97,6 +101,16 @@ public class FarmerManager implements Finterface {
 			if(f.getID() == fid){
 				f = x;
 				f.setID(fid);
+				break;
+			}
+		}
+	}
+	
+	public void setOrderToID(int oid, Order o){
+		List<Order> ol = getOrderList(o.getFID());
+		for(Order x: ol){
+			if(x.getID() == oid){
+				x = o;
 				break;
 			}
 		}

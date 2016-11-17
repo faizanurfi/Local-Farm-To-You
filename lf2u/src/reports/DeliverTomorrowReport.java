@@ -1,23 +1,25 @@
 package reports;
 
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.ArrayList;
-import farmers.*;
-import order.*;
+import java.util.Date;
+import java.util.List;
 
-public class DeliverTodayReport extends FarmerReport{
-	
+import farmers.FarmerManager;
+import farmers.Finterface;
+import order.Order;
+
+public class DeliverTomorrowReport extends FarmerReport{
 	static DateFormat df = new SimpleDateFormat("yyyyMMdd");
 	static Date dobj = new Date();
-	static String sd = df.format(dobj);
+	static Date tomorrow = new Date(dobj.getTime() + (1000 * 60 * 60 * 24));
+	static String sd = df.format(tomorrow);
 	private List<OrderReport> orlist;
 	private Finterface fi = new FarmerManager();
 	
-	public DeliverTodayReport(int fid, int frid){
-		super(frid, "Orders to deliver today");
+	public DeliverTomorrowReport(int fid, int frid){
+		super(frid, "Orders to deliver tomorrow");
 		orlist = new ArrayList<OrderReport>();
 		List<Order> ol = fi.getOrderList(fid);
 		for(Order o: ol){

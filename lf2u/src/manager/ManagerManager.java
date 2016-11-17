@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import products.Product;
+import reports.*;
 
 public class ManagerManager implements Minterface {
 	private static List<Manager> managers = new ArrayList<Manager>();
