@@ -17,8 +17,10 @@ public class FarmerRevenueReport extends FarmerReport{
 	private double products_revenue = 0.0;
 	private double delivery_revenue = 0.0;
 	
-	public FarmerRevenueReport(int fid, int frid){
+	public FarmerRevenueReport(int fid, int frid, String sd, String ed){
 		super(frid, "Revenue Report");
+		this.start_date = sd;
+		this.end_date = ed;
 		this.f = fid;
 		List<Order> ol = fi.getOrderList(fid);
 		for(Order o: ol){
@@ -32,8 +34,8 @@ public class FarmerRevenueReport extends FarmerReport{
 				}
 				if(o.getDeliveryStatus() == true){
 					this.orders_delivered++;
-					this.products_revenue =+ o.getProductPrice();
-					this.delivery_revenue =+ fi.viewDeliveryCharge(fid);
+					this.products_revenue += o.getProductPrice();
+					this.delivery_revenue += fi.viewDeliveryCharge(fid);
 				}
 			}
 		}

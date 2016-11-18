@@ -71,7 +71,7 @@ public class Order {
 		double tPrice = 0.0;
 		for(Item i: items){
 			i.calculateItemPrice();
-			tPrice =+ i.getPrice();
+			tPrice += i.getPrice();
 		}
 		this.totalPrice = tPrice;
 		return this.totalPrice;
@@ -81,7 +81,7 @@ public class Order {
 		double tPrice = 0.0;
 		for(Item i: items){
 			i.calculateProductsPrice();
-			tPrice =+ i.getPrice();
+			tPrice += i.getPrice();
 		}
 		this.productPrice = tPrice;
 		return this.productPrice;
