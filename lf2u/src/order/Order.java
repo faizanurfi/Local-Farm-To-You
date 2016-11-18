@@ -10,7 +10,8 @@ public class Order {
 	private int id;
 	private static int sid = 1;
 	String orderDate;
-	String plannedDate;
+	String plannedDate = "";
+	String deliveryDate = "";
 	private int cid;
 	private double productPrice;
 	private double totalPrice;
@@ -103,6 +104,10 @@ public class Order {
 		return this.openStatus;
 	}
 	
+	public String getDeliveryDate(){
+		return this.deliveryDate;
+	}
+	
 	public void setFID(int f){
 		this.fid = f;
 	}
@@ -133,5 +138,9 @@ public class Order {
 	
 	public void setOpenStatus(boolean b){
 		this.openStatus = b;
+	}
+	
+	public void setDeliveryDate(String d){
+		this.deliveryDate = d;
 	}
 }

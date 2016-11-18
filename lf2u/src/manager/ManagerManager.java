@@ -8,6 +8,12 @@ import reports.*;
 
 public class ManagerManager implements Minterface {
 	private static List<Manager> managers = new ArrayList<Manager>();
+	private ManagerReport mr1 = new ManagerReport(1, "orders placed today");
+	private ManagerReport mr2 = new ManagerReport(2, "orders placed yesterday");
+	private ManagerReport mr3 = new ManagerReport(3, "Revenue for previous month");
+	private ManagerReport mr4 = new ManagerReport(4, "Revenue yesterday");
+	private ManagerReport mr5 = new ManagerReport(1, "Revenue yesterday by zip code");
+	private ManagerReport [] mra = {mr1, mr2, mr3, mr4, mr5};
 
 	public Product [] viewCatalog() {
 		GeneralCatalog gc = new GeneralCatalog();
@@ -35,10 +41,34 @@ public class ManagerManager implements Minterface {
 		return findByID(mid);
 	}//done
 
-	public Report getReport() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Report getReport(int mrid, String zip) {
+		Report r = new Report();
+		if(mrid == 1){
+			ManagerReport mr = new OrdersPlacedToday(mrid);
+			r = mr;
+		}
+		else if(mrid == 2){
+			ManagerReport mr = new OrdersPlacedYesterday(mrid);
+			r = mr;
+		}
+		else if(mrid == 3){
+			ManagerReport mr = new RevenuePreviousMonth(mrid);
+			r = mr;
+		}
+		else if(mrid == 4){
+			ManagerReport mr = new RevenueYesterday(mrid);
+			r = mr;
+		}
+		else if(mrid == 5){
+			ManagerReport mr = new RevenueYesterdayZip(mrid, zip);
+			r = mr;
+		}
+		return r;
+	}//done
+	
+	public ManagerReport[] getAllReports(){
+		return this.mra;
+	}//done
 	
 	private Manager findByID(int mid){
 		Manager x = new Manager();

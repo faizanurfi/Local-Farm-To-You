@@ -19,7 +19,7 @@ public interface Finterface {
 	Product viewStoreProductDetail(int fid, int fspid);
 	void addOrderToList(Order o);
 	List<Order> getOrderList(int fid);
-	Report getReport(int fid, int frid);
+	Report getReport(int fid, int frid, String sd, String ed);
 	Report [] getAllReports();
 	double viewDeliveryCharge(int fid);
 	void updateDeliveryCharge(int fid, double dc);

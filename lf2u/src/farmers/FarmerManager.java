@@ -77,14 +77,14 @@ public class FarmerManager implements Finterface {
 	
 	public void addOrderToList(Order o){
 		findByID(o.getFID()).getOrderList().add(o);
-	}
+	}//done
 	
 	public List<Order> getOrderList(int fid){
 		List<Order> rl = findByID(fid).getOrderList();
 		return rl;
-	}	
+	}//done	
 	
-	public Report getReport(int fid, int frid) {
+	public Report getReport(int fid, int frid, String sd, String ed) {
 		Report r = new Report();
 		if(frid == 701){
 			FarmerReport fr = new DeliverTodayReport(fid, frid);
@@ -95,15 +95,15 @@ public class FarmerManager implements Finterface {
 			r = fr;
 		}
 		else if(frid == 703){
-			FarmerReport fr = new FarmerRevenueReport(fid, frid);
+			FarmerReport fr = new FarmerRevenueReport(fid, frid, sd, ed);
 			r = fr;
 		}
 		return r;
-	}
+	}//done
 	
 	public FarmerReport[] getAllReports(){
 		return this.fra;
-	}
+	}//done
 	
 
 	public Farmer findByID(int fid){

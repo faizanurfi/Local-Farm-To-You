@@ -1,6 +1,7 @@
 package reports;
 
 import farmers.*;
+import customers.*;
 import order.*;
 import java.util.List;
 
@@ -18,27 +19,88 @@ public class ManFarmerRevReport {
 	private double payable_to_farm;
 	
 	Finterface fi = new FarmerManager();
+	Cinterface ci = new CustomerManager();
 	
-	public ManFarmerRevReport(int f){
+	public ManFarmerRevReport(int f, String sd, String ed){
 		this.fid = f;
 		Farmer x = fi.findByID(this.fid);
 		this.name = x.getName();
 		List<Order> ol = x.getOrderList();
 		for (Order o: ol){
-			orders_placed++;
-			if(o.getDeliveryStatus()){
-				orders_delivered++;
-				total_revenue += o.getTotalPrice();
-				products_revenue += o.getProductPrice();
-				delivery_revenue += x.getDeliveryCharge();
-				lf2u_fees = 0.03*total_revenue;
-				payable_to_farm = total_revenue - lf2u_fees;
+			int od = Integer.parseInt(o.getDate());
+			int sdi = Integer.parseInt(sd);
+			int edi = Integer.parseInt(ed);
+			if(od >= sdi && od <= edi){
+				orders_placed++;
+				if(o.getDeliveryStatus()){
+					orders_delivered++;
+					total_revenue += o.getTotalPrice();
+					products_revenue += o.getProductPrice();
+					delivery_revenue += x.getDeliveryCharge();
+					lf2u_fees = 0.03*total_revenue;
+					payable_to_farm = total_revenue - lf2u_fees;
+				}
+				if(o.getOpenStatus()){
+					orders_open++;
+				}
+				if(o.getOpenStatus() == false && o.getDeliveryStatus() == false){
+					orders_cancelled++;
+				}
 			}
-			if(o.getOpenStatus()){
-				orders_open++;
+		}
+	}
+	
+	public ManFarmerRevReport(int f, String d){
+		this.fid = f;
+		Farmer x = fi.findByID(this.fid);
+		this.name = x.getName();
+		List<Order> ol = x.getOrderList();
+		for (Order o: ol){
+			String date = o.getDeliveryDate();
+			if(date.equals(d)){
+				orders_placed++;
+				if(o.getDeliveryStatus()){
+					orders_delivered++;
+					total_revenue += o.getTotalPrice();
+					products_revenue += o.getProductPrice();
+					delivery_revenue += x.getDeliveryCharge();
+					lf2u_fees = 0.03*total_revenue;
+					payable_to_farm = total_revenue - lf2u_fees;
+				}
+				if(o.getOpenStatus()){
+					orders_open++;
+				}
+				if(o.getOpenStatus() == false && o.getDeliveryStatus() == false){
+					orders_cancelled++;
+				}
 			}
-			if(o.getOpenStatus() == false && o.getDeliveryStatus() == false){
-				orders_cancelled++;
+		}
+	}
+	
+	public ManFarmerRevReport(int f, String d, String z, String z1){
+		this.fid = f;
+		Farmer x = fi.findByID(this.fid);
+		this.name = x.getName();
+		List<Order> ol = x.getOrderList();
+		for (Order o: ol){
+			String date = o.getDeliveryDate();
+			String zip = ci.findByID(o.getCID()).getZip();
+			if(date.equals(d) && zip.equals(z)){
+				orders_placed++;
+				if(o.getDeliveryStatus()){
+					orders_delivered++;
+					total_revenue += o.getTotalPrice();
+					products_revenue += o.getProductPrice();
+					delivery_revenue += x.getDeliveryCharge();
+					lf2u_fees = 0.03*total_revenue;
+					payable_to_farm = total_revenue - lf2u_fees;
+				}
+				if(o.getOpenStatus()){
+					orders_open++;
+				}
+				if(o.getOpenStatus() == false && o.getDeliveryStatus() == false){
+					orders_cancelled++;
+				}
 			}
 		}
 	}

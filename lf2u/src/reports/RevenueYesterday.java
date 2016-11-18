@@ -1,13 +1,14 @@
 package reports;
 
+import java.util.List;
+import java.util.ArrayList;
+import farmers.*;
+import order.*;
 import java.util.*;
 import java.text.*;
-import farmers.*;
 
-public class RevenuePreviousMonth extends ManagerReport{
+public class RevenueYesterday extends ManagerReport{
 	
-	private String start_date;
-	private String end_date;
 	private int orders_placed = 0;
 	private int orders_delivered = 0;
 	private int orders_open = 0;
@@ -22,22 +23,20 @@ public class RevenuePreviousMonth extends ManagerReport{
 	
 	Finterface fi = new FarmerManager();
 	
-	public RevenuePreviousMonth(int mrid){
+	public RevenueYesterday(int mrid){
 		super(mrid, "Revenue for last month");
 		this.mfrr = new ArrayList<ManFarmerRevReport>();
 		
-		DateFormat df2 = new SimpleDateFormat("yyyyMMdd");
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DATE, 0);
-		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-		this.end_date = df2.format(c.getTime());
-		c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
-		this.start_date = df2.format(c.getTime());
+		c.add(Calendar.DATE, -1);
+		Date yesterday = c.getTime();
+		String yes = df.format(yesterday);
 		
 		List<Farmer> flist = fi.viewAllFarmers();
 		for(Farmer f: flist){
 			int fint = f.getID();
-			ManFarmerRevReport m = new ManFarmerRevReport(fint, start_date, end_date);
+			ManFarmerRevReport m = new ManFarmerRevReport(fint, yes);
 			mfrr.add(m);
 		}
 		for(ManFarmerRevReport x: mfrr){
