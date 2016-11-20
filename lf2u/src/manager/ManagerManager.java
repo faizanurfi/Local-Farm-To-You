@@ -54,7 +54,16 @@ public class ManagerManager implements Minterface {
 		return findByID(mid);
 	}//done
 
-	public Report getReport(int mrid, String zip) {
+	public Report getReportZip(int mrid, String zip) {
+		Report r = new Report();
+		if(mrid == 5){
+			ManagerReport mr = new RevenueYesterdayZip(mrid, zip);
+			r = mr;
+		}
+		return r;
+	}//done
+	
+	public Report getReport(int mrid){
 		Report r = new Report();
 		if(mrid == 1){
 			ManagerReport mr = new OrdersPlacedToday(mrid);
@@ -70,10 +79,6 @@ public class ManagerManager implements Minterface {
 		}
 		else if(mrid == 4){
 			ManagerReport mr = new RevenueYesterday(mrid);
-			r = mr;
-		}
-		else if(mrid == 5){
-			ManagerReport mr = new RevenueYesterdayZip(mrid, zip);
 			r = mr;
 		}
 		return r;

@@ -12,6 +12,7 @@ public interface Minterface {
 	void updateCatalogProduct(int gcpid, Product p);
 	Manager[] viewAllManagers();
 	Manager viewAccount(int mid);
-	Report getReport(int mrid, String zip);
+	Report getReport(int mrid);
+	Report getReportZip(int mrid, String zip);
 	Report[] getAllReports();
 }

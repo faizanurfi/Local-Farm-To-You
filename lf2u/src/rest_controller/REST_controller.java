@@ -404,12 +404,23 @@ public class REST_controller {
         return Response.status(Response.Status.OK).entity(s).build();
     }
     
-    @Path("/managers/reports")
+    @Path("/managers/reports/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewReport() {
+    public Response viewReport(@PathParam("id") int mrid) {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        String s = gson.toJson(mi.getAllReports());
+        String s = gson.toJson(mi.getReport(mrid));
         return Response.status(Response.Status.OK).entity(s).build();
-    }
+    }//also add method to get reports with SD ED
+    
+    
+    
+    @Path("/managers/reports/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response search(@PathParam("id") int mrid) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(mi.getReport(mrid));
+        return Response.status(Response.Status.OK).entity(s).build();
+    }//also add method to get reports with SD ED
 }
