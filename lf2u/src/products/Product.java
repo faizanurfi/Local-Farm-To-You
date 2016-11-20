@@ -21,14 +21,18 @@ public class Product {
 	
 	public Product(){}
 	
-	public Product(String n, catalogProduct pt){}
+	public Product(String n){
+		this.name = n;
+		this.id = sid;
+		sid++;
+	}
 	
 	public Product(String n, catalogProduct pt, double p, unit up){
 		this.name = n;
 		this.productType = pt;
 		this.price = p;
 		this.unitOfPrice = up;
-		id = sid;
+		this.id = sid;
 		sid++;
 	}
 	

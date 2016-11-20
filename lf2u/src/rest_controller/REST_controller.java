@@ -340,4 +340,76 @@ public class REST_controller {
     }
     
     //customer API completed
+    
+    //manager API completed
+    
+    @Path("/managers/catalog")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewCatalog() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(mi.viewCatalog());
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
+    
+    @Path("/managers/catalog")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addProductToCatalog(String json) {
+        JSONObject obj = new JSONObject(json);
+        String name = obj.getString("name");
+        Product p = new Product(name);
+        mi.addProductToCatalog(p);
+        
+        String s = gson.toJson(p.getGCPID());
+        return Response.status(Response.Status.OK).entity(s).build();		
+    }
+    
+    @Path("/managers/catalog/{id}")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateProductGenCatalog(@PathParam("id") int gcpid, String json) {
+        JSONObject obj = new JSONObject(json);
+        String name = obj.getString("name");
+        Product p = new Product(name);
+        p.setGCPID(gcpid);
+        mi.updateCatalogProduct(gcpid, p);
+        return Response.ok().build();		
+    }
+    
+    @Path("/managers/accounts")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewAllAccounts() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(mi.viewAllManagers());
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
+    
+    @Path("/managers/accounts/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewAccount(@PathParam("id") int mid) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(mi.viewAccount(mid));
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
+    
+    @Path("/managers/reports")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewAllReports() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(mi.getAllReports());
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
+    
+    @Path("/managers/reports")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewReport() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(mi.getAllReports());
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
 }

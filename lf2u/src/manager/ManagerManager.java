@@ -44,9 +44,10 @@ public class ManagerManager implements Minterface {
 		setProdToID(gcpid, p);
 	}//done
 
-	public List<Manager> viewAllManagers() {
+	public Manager[] viewAllManagers() {
 		List<Manager> mlist = managers;
-		return mlist;
+		Manager [] marr = (Manager[]) mlist.toArray();
+		return marr;
 	}//done
 
 	public Manager viewAccount(int mid) {
@@ -99,6 +100,7 @@ public class ManagerManager implements Minterface {
 		for(Product x: gcl){
 			if(x.getGCPID() == gcpid){
 				x = p;
+				x.setGCPID(gcpid);
 				break;
 			}
 		}

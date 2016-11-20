@@ -10,7 +10,7 @@ public interface Minterface {
 	Product getProductByID(int gcpid);
 	void addProductToCatalog(Product p);
 	void updateCatalogProduct(int gcpid, Product p);
-	List<Manager> viewAllManagers();
+	Manager[] viewAllManagers();
 	Manager viewAccount(int mid);
 	Report getReport(int mrid, String zip);
 	Report[] getAllReports();
