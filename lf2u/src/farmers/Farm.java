@@ -9,7 +9,10 @@ public class Farm {
 	private String phone;
 	private String web = "no website";
 	private String [] dzip;  //delivery zip codes
-	private List<Farm> farmList = new ArrayList<Farm>();
+	
+	public Farm(){
+		
+	}
 	
 	public Farm(String n, String a, String p, String [] dz){
 		this.name = n;
@@ -44,10 +47,5 @@ public class Farm {
 	
 	public String getWebsite(){
 		return this.web;
-	}
-	
-	public List<Farm> getFarmList(){
-		List<Farm> newList = farmList;
-		return newList;
 	}
 }

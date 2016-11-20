@@ -22,6 +22,18 @@ public class ManagerManager implements Minterface {
 		arr = l.toArray(arr);
 		return arr;
 	}//done
+	
+	public Product getProductByID(int gcpid){
+		GeneralCatalog gc = new GeneralCatalog();
+		Product p = new Product();
+		for(Product x: gc.getCatalogList()){
+			if(x.getGCPID() == gcpid){
+				p = x;
+				break;
+			}
+		}
+		return p;
+	}//done
 
 	public void addProductToCatalog(Product p) {
 		GeneralCatalog gc = new GeneralCatalog();
@@ -85,9 +97,8 @@ public class ManagerManager implements Minterface {
 		GeneralCatalog gc = new GeneralCatalog();
 		List<Product> gcl = gc.getCatalogList();
 		for(Product x: gcl){
-			if(x.getID() == gcpid){
+			if(x.getGCPID() == gcpid){
 				x = p;
-				x.setID(gcpid);
 				break;
 			}
 		}

@@ -5,6 +5,8 @@ import java.util.List;
 
 import products.Product;
 import manager.Catalog;
+import manager.GeneralCatalog;
+import manager.FarmerCatalog;
 import order.Order;
 import reports.*;
 
@@ -15,6 +17,7 @@ public class FarmerManager implements Finterface {
 	private FarmerReport fr3 = new FarmerReport(703, "Revenue Report");
 	private FarmerReport fr4 = new FarmerReport(704, "Orders delivery report");
 	private FarmerReport [] fra = {fr1, fr2, fr3, fr4};
+	private static List<Farm> farmList = new ArrayList<Farm>();
 	
 	public void createAccount(Farmer f) {
 		Farmer x = f;
@@ -30,15 +33,17 @@ public class FarmerManager implements Finterface {
 		return x;
 	}//done
 
-	public List<Farmer> viewFarmers(String zip) {
+	public Farmer [] viewFarmers(String zip) {
 		List<Farmer> newFList = farmers;
-		return newFList;
-	}//done
-	
-	public List<Farmer> viewAllFarmers(){
-		List<Farmer> newFList = farmers;
-		return newFList;
+		Farmer [] rf = (Farmer[]) newFList.toArray();
+		return rf;
 	}
+	
+	public Farmer [] viewAllFarmers(){
+		List<Farmer> newFList = farmers;
+		Farmer [] rf = (Farmer[]) newFList.toArray();
+		return rf;
+	}//done
 
 	public double viewDeliveryCharge(int fid) {
 		Farmer x = findByID(fid);
@@ -75,6 +80,18 @@ public class FarmerManager implements Finterface {
 		return p;
 	}//done
 	
+	public Product getProductByID(int gcpid){
+		GeneralCatalog gc = new GeneralCatalog();
+		Product p = new Product();
+		for(Product x: gc.getCatalogList()){
+			if(x.getFSPID() == gcpid){
+				p = x;
+				break;
+			}
+		}
+		return p;
+	}//done
+	
 	public void addOrderToList(Order o){
 		findByID(o.getFID()).getOrderList().add(o);
 	}//done
@@ -96,6 +113,19 @@ public class FarmerManager implements Finterface {
 		}
 		else if(frid == 703){
 			FarmerReport fr = new FarmerRevenueReport(fid, frid, sd, ed);
+			r = fr;
+		}
+		return r;
+	}//done
+	
+	public Report getReport(int fid, int frid) {
+		Report r = new Report();
+		if(frid == 701){
+			FarmerReport fr = new DeliverTodayReport(fid, frid);
+			r = fr;
+		}
+		else if(frid == 702){
+			FarmerReport fr = new DeliverTomorrowReport(fid,frid);
 			r = fr;
 		}
 		return r;
@@ -135,5 +165,20 @@ public class FarmerManager implements Finterface {
 				break;
 			}
 		}
+	}
+	
+	public void setProductToID(int fid, int fspid, Product p) {
+		Farmer f = findByID(fid);
+		f.getFarmerCatalog().setProdToID(fspid, p);
+	}
+	
+	public Farm [] getFarmList(){
+		List<Farm> newList = farmList;
+		Farm [] f = (Farm []) newList.toArray();
+		return f;
+	}
+	
+	public void addToFarmList(Farm f){
+		this.farmList.add(f);
 	}
 }

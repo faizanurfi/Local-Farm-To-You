@@ -8,13 +8,14 @@ public class Item {
 	private int fid;
 	private int fspid;
 	private double amount;
-	private double iPrice;
-	private double pPrice;
+	private double price;
+	private double line_item_total;
 	
 	public Item(int f, int fs, double a){
 		this.fid = f;
 		this.fspid = fs;
 		this.amount = a;
+		this.calculateProductsPrice();
 	}
 	
 	public int getFID(){
@@ -30,7 +31,11 @@ public class Item {
 	}
 	
 	public double getPrice(){
-		return this.iPrice;
+		return this.price;
+	}
+	
+	public double getTotalItemPrice(){
+		return this.line_item_total;
 	}
 	
 	public void setFID(int f){
@@ -46,20 +51,13 @@ public class Item {
 	}
 	
 	public void setPrice(double p){
-		this.iPrice = p;
-	}
-	
-	public void calculateItemPrice(){
-		Finterface fi = new FarmerManager();
-		Product p = fi.viewStoreProductDetail(this.fid, this.fspid);
-		double total = p.getPrice()*amount + fi.viewDeliveryCharge(fid);
-		this.setPrice(total);
+		this.price = p;
 	}
 	
 	public void calculateProductsPrice(){
 		Finterface fi = new FarmerManager();
 		Product p = fi.viewStoreProductDetail(this.fid, this.fspid);
 		double total = p.getPrice()*amount;
-		this.setPrice(total); 
+		this.line_item_total = total;
 	}
 }

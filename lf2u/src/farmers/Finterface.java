@@ -11,19 +11,24 @@ public interface Finterface {
 	void createAccount(Farmer f);
 	void updateAccount(int fid, Farmer f);
 	Farmer viewAccount(int fid);
-	List<Farmer> viewFarmers(String zip);
-	List<Farmer> viewAllFarmers();
+	Farmer[] viewFarmers(String zip);
+	Farmer[] viewAllFarmers();
 	Catalog viewFarmStore(int fid);
 	void addProductToStore(int fid, Product p);
 	void modifyStoreProduct(int fid, int fspid, Product p);
 	Product viewStoreProductDetail(int fid, int fspid);
+	Product getProductByID(int gcpid);
 	void addOrderToList(Order o);
 	List<Order> getOrderList(int fid);
 	Report getReport(int fid, int frid, String sd, String ed);
+	Report getReport(int fid, int frid);
 	Report [] getAllReports();
 	double viewDeliveryCharge(int fid);
 	void updateDeliveryCharge(int fid, double dc);
 	Farmer findByID(int fid);
 	void setToID(int fid, Farmer x);
 	void setOrderToID(int oid, Order o);
+	void setProductToID(int fid, int fspid, Product p);
+	Farm [] getFarmList();
+	void addToFarmList(Farm f);
 }

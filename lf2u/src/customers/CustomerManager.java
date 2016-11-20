@@ -32,9 +32,11 @@ public class CustomerManager implements Cinterface {
 		fi.addOrderToList(o);
 	}//done
 	
-	public List<Order> viewOrders(int cid){
+	public Order [] viewOrders(int cid){
 		Customer x = findByID(cid);
-		return x.getOrderList();
+		List<Order> l = x.getOrderList();
+		Order [] oa = (Order []) l.toArray();
+		return oa;
 	}//done
 
 	public Order viewOrderByID(int cid, int oid) {
@@ -44,7 +46,7 @@ public class CustomerManager implements Cinterface {
 		return r;
 	}//done
 
-	public void cancelOrder(int cid, int oid) {
+	public String cancelOrder(int cid, int oid) {
 		Customer x = findByID(cid);
 		List<Order> ol = x.getOrderList();
 		Order ox = new Order();
@@ -60,6 +62,8 @@ public class CustomerManager implements Cinterface {
 		
 		Finterface fi = new FarmerManager();
 		fi.setOrderToID(oid, ox); // Update Farmer order queue
+		String status = "cancelled";
+		return status;
 	}//done
 	
 	public Customer findByID(int cid){

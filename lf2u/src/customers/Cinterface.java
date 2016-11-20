@@ -9,9 +9,9 @@ public interface Cinterface {
 	void updateAccount(int cid, Customer c);
 	Customer viewAccount(int cid);
 	void createOrder(int cid, Order o);
-	List<Order> viewOrders(int cid);
+	Order [] viewOrders(int cid);
 	Order viewOrderByID(int cid, int oid);
-	void cancelOrder(int cid, int oid);
+	String cancelOrder(int cid, int oid);
 	Customer findByID(int cid);
 	void setToID(int cid, Customer c);
 	Order findOrder(int oid, List<Order> ol);

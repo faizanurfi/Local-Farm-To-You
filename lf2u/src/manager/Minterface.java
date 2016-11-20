@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface Minterface {
 	Product [] viewCatalog();
+	Product getProductByID(int gcpid);
 	void addProductToCatalog(Product p);
 	void updateCatalogProduct(int gcpid, Product p);
 	List<Manager> viewAllManagers();

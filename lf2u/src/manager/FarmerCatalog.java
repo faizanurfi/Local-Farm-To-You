@@ -24,7 +24,7 @@ public class FarmerCatalog extends Catalog {
 	public Product findProduct(int fspid){
 		Product p = new Product();
 		for(Product x: fcat){
-			if(p.getID() == fspid){
+			if(p.getFSPID() == fspid){
 				p = x;
 				break;
 			}
@@ -34,9 +34,8 @@ public class FarmerCatalog extends Catalog {
 	
 	public void setProdToID(int fspid, Product p){
 		for(Product x: fcat){
-			if(x.getID() == fspid){
+			if(x.getFSPID() == fspid){
 				x = p;
-				x.setID(fspid);
 				break;
 			}
 		}

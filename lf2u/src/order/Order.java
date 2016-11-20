@@ -4,26 +4,33 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import farmers.*;
+import products.Product;
+
 public class Order {
 	private int fid;
-	private String dNote = "";
 	private int id;
 	private static int sid = 1;
 	String orderDate;
 	String plannedDate = "";
 	String deliveryDate = "";
-	private int cid;
-	private double productPrice;
-	private double totalPrice;
-	private List<Item> items;
 	private boolean openStatus;
+	private Farm farm_info;
+	private List<Item> order_detail;
+	private String dNote = "";
+	private double products_total;
+	private double delivery_charge;
+	private double order_total;
 	private boolean dStatus;
+	private int cid;
+	
+	Finterface fi = new FarmerManager();
 	
 	public Order(){}
 	
 	public Order(int f){
 		this.fid = f;
-		this.items = new ArrayList<Item>();
+		this.order_detail = new ArrayList<Item>();
 		this.id = sid;
 		sid++;
 		this.openStatus = true;
@@ -32,12 +39,18 @@ public class Order {
 		Date dobj = new Date();
 		String sd = df.format(dobj);
 		this.orderDate = sd;
+		
+		for(Farmer far: fi.viewAllFarmers()){
+			if(far.getID() == this.fid){
+				this.farm_info = far.getFarm();
+			}
+		}
 	}
 	
 	public Order(int f, String dn){
 		this.fid = f;
 		this.dNote = dn;
-		this.items = new ArrayList<Item>();
+		this.order_detail = new ArrayList<Item>();
 		this.id = sid;
 		sid++;
 		this.openStatus = true;
@@ -46,6 +59,12 @@ public class Order {
 		Date dobj = new Date();
 		String sd = df.format(dobj);
 		this.orderDate = sd;
+		
+		for(Farmer far: fi.viewAllFarmers()){
+			if(far.getID() == this.fid){
+				this.farm_info = far.getFarm();
+			}
+		}
 	}
 	
 	public int getFID(){
@@ -65,27 +84,28 @@ public class Order {
 	}
 	
 	public List<Item> getItemList(){
-		return this.items;
+		return this.order_detail;
 	}
 	
 	public double getTotalPrice(){
 		double tPrice = 0.0;
-		for(Item i: items){
-			i.calculateItemPrice();
-			tPrice += i.getPrice();
+		for(Item i: order_detail){
+			Finterface fi = new FarmerManager();
+			Product p = fi.viewStoreProductDetail(this.fid, i.getFSPID());
+			tPrice += getProductsPrice();
 		}
-		this.totalPrice = tPrice;
-		return this.totalPrice;
+		this.order_total = tPrice + fi.viewDeliveryCharge(fid);
+		return this.order_total;
 	}
 	
-	public double getProductPrice(){
+	public double getProductsPrice(){
 		double tPrice = 0.0;
-		for(Item i: items){
+		for(Item i: order_detail){
 			i.calculateProductsPrice();
-			tPrice += i.getPrice();
+			tPrice += i.getTotalItemPrice();
 		}
-		this.productPrice = tPrice;
-		return this.productPrice;
+		this.products_total = tPrice;
+		return this.products_total;
 	}
 	
 	public String getDate(){
@@ -121,7 +141,7 @@ public class Order {
 	}
 	
 	public void addItemToList(Item i){
-		this.items.add(i);
+		this.order_detail.add(i);
 	}
 	
 	public void setCID(int c){
@@ -143,4 +163,5 @@ public class Order {
 	public void setDeliveryDate(String d){
 		this.deliveryDate = d;
 	}
+	
 }
