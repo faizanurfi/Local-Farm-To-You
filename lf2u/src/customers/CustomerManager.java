@@ -1,15 +1,17 @@
 package customers;
 
 import java.util.List;
-
-
+import java.util.StringTokenizer;
 import java.util.ArrayList;
-import order.Order;
-import farmers.FarmerManager;
-import farmers.Finterface;
+import order.*;
+import manager.ManagerManager;
+import manager.Minterface;
+import farmers.*;
 
 public class CustomerManager implements Cinterface {
 	private static List<Customer> customers = new ArrayList<Customer>();
+	Minterface mi = new ManagerManager();
+	Finterface fi = new FarmerManager();
 	
 	public void createAccount(Customer c) {
 		Customer x = c;
@@ -87,14 +89,225 @@ public class CustomerManager implements Cinterface {
 		}
 	}
 	
-	public Order findOrder(int oid, List<Order> olist){
+	public Order findOrder(int oid, List<Order> ol){
 		Order x = new Order();
-		for(Order o: olist){
+		for(Order o: ol){
 			if(o.getID() == oid){
 				x = o;
 				break;
 			}
 		}
 		return x;
+	}
+	
+	public Customer searchC(String k){
+		Customer c = new Customer();
+		for(Customer co: customers){
+			String s = ""+co.getID();
+			if(k.equals(s)){
+				c = co;
+				break;
+			}
+			s = co.getName();
+			StringTokenizer strtok = new StringTokenizer(s, " ");
+			String s1 = strtok.nextToken();
+			String s2 = strtok.nextToken();
+			if(k.equals(s1) || k.equals(s2)){
+				c = co;
+				break;
+			}
+			s = co.getAddress();
+			if(k.equals(s)){
+				c = co;
+				break;
+			}
+			s = co.getZip();
+			if(k.equals(s)){
+				c = co;
+				break;
+			}
+			s = co.getPhone();
+			if(k.equals(s)){
+				c = co;
+				break;
+			}
+			s = co.getEmail();
+			if(k.equals(s)){
+				c = co;
+				break;
+			}
+		}
+		return c;
+	}
+	
+	public Customer [] searchCWO(){
+		Customer [] carr = (Customer[])customers.toArray();
+		return carr;
+	}
+	
+	public Order searchO(String k){
+		Order o = new Order();
+		for(Order oo: mi.getAllOrders()){
+			boolean b = false;
+			String s = ""+oo.getID();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			s = oo.getDate();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			s = oo.getPlannedDate();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			s = oo.getDeliveryDate();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			if(oo.getOpenStatus()){
+				s = "open";
+			}
+			else if(oo.getOpenStatus() == false){
+				s = "closed";
+			}
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			if(this.searchCFO(k, oo.getCID())){
+				o = oo;
+				break;
+			}
+			if(this.searchFFO(k, oo.getFID())){
+				o = oo;
+				break;
+			}
+			List<Item> il = oo.getItemList();
+			for(Item i: il){
+				s = ""+i.getFSPID();
+				if(k.equals(s)){
+					o = oo;
+					b = true;
+					break;
+				}
+				s = ""+i.getAmount();
+				if(k.equals(s)){
+					o = oo;
+					b = true;
+					break;
+				}
+				s = ""+i.getPrice();
+				if(k.equals(s)){
+					o = oo;
+					b = true;
+					break;
+				}
+				s = ""+i.getTotalItemPrice();
+				if(k.equals(s)){
+					o = oo;
+					b = true;
+					break;
+				}
+			}
+			if(b){
+				break;
+			}
+			s = oo.getNote();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			s = ""+oo.getProductsPrice();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			s = ""+oo.getTotalPrice();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+			Farmer f = fi.findByID(oo.getFID());
+			s = ""+f.getDeliveryCharge();
+			if(k.equals(s)){
+				o = oo;
+				break;
+			}
+		}
+		return o;
+	}
+	
+	public Order [] searchOWO(){
+		return mi.getAllOrders();
+	}
+	
+	private boolean searchCFO(String k, int cid){
+		Customer co = this.findByID(cid);
+		boolean b = false;
+		String s = ""+co.getID();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = co.getName();
+		StringTokenizer strtok = new StringTokenizer(s, " ");
+		String s1 = strtok.nextToken();
+		String s2 = strtok.nextToken();
+		if(k.equals(s1) || k.equals(s2)){
+			b = true;
+		}
+		s = co.getAddress();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = co.getZip();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = co.getPhone();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = co.getEmail();
+		if(k.equals(s)){
+			b = true;
+		}
+		
+		return b;
+	}
+	
+	private boolean searchFFO(String k, int fid){
+		Farmer fo = fi.findByID(fid);
+		Farm fa = fo.getFarm();
+		boolean b = false;
+		String s = ""+fo.getID();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = fa.getName();
+		StringTokenizer strtok = new StringTokenizer(s, " ");
+		String s1 = strtok.nextToken();
+		String s2 = strtok.nextToken();
+		if(k.equals(s1) || k.equals(s2)){
+			b = true;
+		}
+		s = fa.getAddress();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = fa.getPhone();
+		if(k.equals(s)){
+			b = true;
+		}
+		s = fa.getWebsite();
+		if(k.equals(s)){
+			b = true;
+		}
+		
+		return b;
 	}
 }

@@ -413,14 +413,66 @@ public class REST_controller {
         return Response.status(Response.Status.OK).entity(s).build();
     }//also add method to get reports with SD ED
     
+    //Manager API completed
     
+    //search API
     
-    @Path("/managers/reports/{id}")
+    @Path("/search?topic={word}&key={key}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response search(@PathParam("id") int mrid) {
+    public Response search(@PathParam("word") String w, @PathParam("key") String k) {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        String s = gson.toJson(mi.getReport(mrid));
+        String s = "";
+        if(w.equals("farm")){
+        	s = gson.toJson(fi.search(k));
+        }
+        else if(w.equals("customer")){
+        	s = gson.toJson(ci.searchC(k));
+        }
+        else if(w.equals("order")){
+        	s = gson.toJson(ci.searchO(k));
+        }
         return Response.status(Response.Status.OK).entity(s).build();
-    }//also add method to get reports with SD ED
+    }
+    
+    @Path("/search?topic={word}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchNoKey(@PathParam("word") String w) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = "";
+        if(w.equals("farm")){
+        	s = gson.toJson(fi.searchFWO());
+        }
+        else if(w.equals("customer")){
+        	s = gson.toJson(ci.searchCWO());
+        }
+        else if(w.equals("order")){
+        	s = gson.toJson(ci.searchOWO());
+        }
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
+    
+    //search API completed
+    
+    //delivery API
+    
+    @Path("/delivery/{id}")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDeliveryStatus(@PathParam("id") int oid, String json) {
+        JSONObject obj = new JSONObject(json);
+        String name = obj.getString("status");
+        if(name.equals("delivered")){
+        	mi.updateDeliveryOfOrderInList(true, oid);
+        }
+        else {
+        	mi.updateDeliveryOfOrderInList(false, oid);
+        }
+        String s = gson.toJson(mi.findOrder(oid).getDeliveryStatus());
+        return Response.status(Response.Status.OK).entity(s).build();		
+    }
+    
+    //delivery API completed
+    
 }

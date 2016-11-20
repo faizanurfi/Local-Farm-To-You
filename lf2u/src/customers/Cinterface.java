@@ -14,7 +14,11 @@ public interface Cinterface {
 	String cancelOrder(int cid, int oid);
 	Customer findByID(int cid);
 	void setToID(int cid, Customer c);
-	Order findOrder(int oid, List<Order> ol);
+	Order findOrder(int oid, List<Order> olist);
+	Customer searchC(String k);
+	Customer [] searchCWO();
+	Order searchO(String k);
+	Order [] searchOWO();
 	
 	//List<Farmer> getFarmersThatDeliver();
 	//List<Product> getFarmerProducts();

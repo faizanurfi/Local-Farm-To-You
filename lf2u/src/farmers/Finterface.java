@@ -31,4 +31,6 @@ public interface Finterface {
 	void setProductToID(int fid, int fspid, Product p);
 	Farm [] getFarmList();
 	void addToFarmList(Farm f);
+	Farmer search(String k);
+	Farm[] searchFWO();
 }

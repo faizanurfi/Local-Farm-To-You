@@ -2,6 +2,7 @@ package farmers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import products.Product;
 import manager.Catalog;
@@ -180,5 +181,75 @@ public class FarmerManager implements Finterface {
 	
 	public void addToFarmList(Farm f){
 		this.farmList.add(f);
+	}
+	
+	public Farmer search(String k){
+		boolean b = false;
+		Farmer f = new Farmer();
+		for(Farmer x: farmers){
+			String s = ""+x.getID();
+			if(k.equals(s)){
+				f = x;
+				break;
+			}
+			s = x.getName();
+			StringTokenizer strtok = new StringTokenizer(s, " ");
+			String s1 = strtok.nextToken();
+			String s2 = strtok.nextToken();
+			if(k.equals(s1) || k.equals(s2)){
+				f= x;
+				break;
+			}
+			s = x.getEmail();
+			if(k.equals(s)){
+				f = x;
+				break;
+			}
+			s = x.getPhone();
+			if(k.equals(s)){
+				f = x;
+				break;
+			}
+			Farm fa = x.getFarm();
+			s = fa.getAddress();
+			if(k.equals(s)){
+				f = x;
+				break;
+			}
+			s = fa.getName();
+			strtok = new StringTokenizer(s, " ");
+			s1 = strtok.nextToken();
+			s2 = strtok.nextToken();
+			if(k.equals(s1) || k.equals(s2)){
+				f= x;
+				break;
+			}
+			s = fa.getPhone();
+			if(k.equals(s)){
+				f = x;
+				break;
+			}
+			s = fa.getWebsite();
+			if(k.equals(s)){
+				f = x;
+				break;
+			}
+			String [] dzarr = fa.getDZip();
+			for(String dz: dzarr){
+				if(k.equals(dz)){
+					f = x;
+					b = true;
+					break;
+				}
+			}
+			if(b){
+				break;
+			}
+		}
+		return f;
+	}
+	
+	public Farm [] searchFWO(){
+		return this.getFarmList();
 	}
 }

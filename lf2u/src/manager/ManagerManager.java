@@ -1,6 +1,9 @@
 package manager;
 
 import java.util.List;
+
+import order.Order;
+
 import java.util.ArrayList;
 
 import products.Product;
@@ -14,6 +17,7 @@ public class ManagerManager implements Minterface {
 	private ManagerReport mr4 = new ManagerReport(4, "Revenue yesterday");
 	private ManagerReport mr5 = new ManagerReport(1, "Revenue yesterday by zip code");
 	private ManagerReport [] mra = {mr1, mr2, mr3, mr4, mr5};
+	private static List<Order> orders = new ArrayList<Order>();
 
 	public Product [] viewCatalog() {
 		GeneralCatalog gc = new GeneralCatalog();
@@ -109,5 +113,34 @@ public class ManagerManager implements Minterface {
 				break;
 			}
 		}
+	}
+	
+	public Order findOrder(int oid){
+		Order x = new Order();
+		for(Order o: orders){
+			if(o.getID() == oid){
+				x = o;
+				break;
+			}
+		}
+		return x;
+	}
+	
+	public void updateDeliveryOfOrderInList(boolean b, int oid){
+		for(Order o: orders){
+			if(o.getID() == oid){
+				o.setDeliveryStatus(b);
+				break;
+			}
+		}
+	}
+	
+	public void addOrderToList(Order o){
+		orders.add(o);
+	}
+	
+	public Order[] getAllOrders(){
+		Order[] oarr = (Order[]) orders.toArray();
+		return oarr;
 	}
 }

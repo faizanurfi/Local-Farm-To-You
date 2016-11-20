@@ -5,6 +5,8 @@ import reports.*;
 
 import java.util.List;
 
+import order.Order;
+
 public interface Minterface {
 	Product [] viewCatalog();
 	Product getProductByID(int gcpid);
@@ -15,4 +17,8 @@ public interface Minterface {
 	Report getReport(int mrid);
 	Report getReportZip(int mrid, String zip);
 	Report[] getAllReports();
+	Order findOrder(int oid);
+	void updateDeliveryOfOrderInList(boolean b, int oid);
+	void addOrderToList(Order o);
+	Order [] getAllOrders();
 }
