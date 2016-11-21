@@ -24,7 +24,7 @@ public class CustomerManager implements Cinterface {
 
 	public Customer viewAccount(int cid) {
 		Customer x = findByID(cid);
-		return x;
+		return (x);
 	}//done
 	
 	public void createOrder(int cid, Order o) {
@@ -38,14 +38,14 @@ public class CustomerManager implements Cinterface {
 		Customer x = findByID(cid);
 		List<Order> l = x.getOrderList();
 		Order [] oa = (Order []) l.toArray();
-		return oa;
+		return (oa);
 	}//done
 
 	public Order viewOrderByID(int cid, int oid) {
 		Customer x = findByID(cid);
 		List<Order> ol = x.getOrderList();
 		Order r = findOrder(oid, ol);
-		return r;
+		return (r);
 	}//done
 
 	public String cancelOrder(int cid, int oid) {
@@ -65,7 +65,7 @@ public class CustomerManager implements Cinterface {
 		Finterface fi = new FarmerManager();
 		fi.setOrderToID(oid, ox); // Update Farmer order queue
 		String status = "cancelled";
-		return status;
+		return (status);
 	}//done
 	
 	public Customer findByID(int cid){
@@ -76,7 +76,7 @@ public class CustomerManager implements Cinterface {
 				break;
 			}
 		}
-		return x;
+		return (x);
 	}
 	
 	public void setToID(int cid, Customer x){
@@ -97,7 +97,7 @@ public class CustomerManager implements Cinterface {
 				break;
 			}
 		}
-		return x;
+		return (x);
 	}
 	
 	public Customer searchC(String k){
@@ -137,12 +137,12 @@ public class CustomerManager implements Cinterface {
 				break;
 			}
 		}
-		return c;
+		return (c);
 	}
 	
 	public Customer [] searchCWO(){
 		Customer [] carr = (Customer[])customers.toArray();
-		return carr;
+		return (carr);
 	}
 	
 	public Order searchO(String k){
@@ -239,11 +239,11 @@ public class CustomerManager implements Cinterface {
 				break;
 			}
 		}
-		return o;
+		return (o);
 	}
 	
 	public Order [] searchOWO(){
-		return mi.getAllOrders();
+		return (mi.getAllOrders());
 	}
 	
 	private boolean searchCFO(String k, int cid){
@@ -277,7 +277,7 @@ public class CustomerManager implements Cinterface {
 			b = true;
 		}
 		
-		return b;
+		return (b);
 	}
 	
 	private boolean searchFFO(String k, int fid){
@@ -308,6 +308,6 @@ public class CustomerManager implements Cinterface {
 			b = true;
 		}
 		
-		return b;
+		return (b);
 	}
 }

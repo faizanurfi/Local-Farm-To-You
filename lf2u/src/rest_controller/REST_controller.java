@@ -13,7 +13,7 @@ import manager.*;
 import products.*;
 import order.*;
 
-
+@Path("")
 public class REST_controller {
 	
 	Cinterface ci = new CustomerManager();
@@ -58,7 +58,7 @@ public class REST_controller {
     }
     
     @Path("/farmers/{id}")
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateFarmerAccountPOST(@PathParam("id") int fid, String json) {
         JSONObject obj = new JSONObject(json);
@@ -92,7 +92,7 @@ public class REST_controller {
     @Path("/farmers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewAllFarmerAccountGET() {
+    public Response viewAllFarmerAccountsGET() {
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewAllFarmers());
         return Response.status(Response.Status.OK).entity(s).build();
@@ -319,6 +319,15 @@ public class REST_controller {
 
         String s = gson.toJson(o.getID());
         return Response.status(Response.Status.OK).entity(s).build();		
+    }
+    
+    @Path("/customers/{id}/orders")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewAllOrders(@PathParam("id") int cid){
+    	gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(ci.viewOrders(cid));
+        return Response.status(Response.Status.OK).entity(s).build();
     }
     
     @Path("/customers/{id}/orders/{oid}")

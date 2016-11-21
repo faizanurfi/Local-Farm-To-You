@@ -34,7 +34,7 @@ public class RevenuePreviousMonth extends ManagerReport{
 		c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
 		this.start_date = df2.format(c.getTime());
 		
-		List<Farmer> flist = fi.viewAllFarmers();
+		Farmer[] flist = fi.viewAllFarmers();
 		for(Farmer f: flist){
 			int fint = f.getID();
 			ManFarmerRevReport m = new ManFarmerRevReport(fint, start_date, end_date);

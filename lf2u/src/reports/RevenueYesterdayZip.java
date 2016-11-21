@@ -33,7 +33,7 @@ public class RevenueYesterdayZip extends ManagerReport{
 		Date yesterday = c.getTime();
 		String yes = df.format(yesterday);
 		
-		List<Farmer> flist = fi.viewAllFarmers();
+		Farmer[] flist = fi.viewAllFarmers();
 		for(Farmer f: flist){
 			int fint = f.getID();
 			ManFarmerRevReport m = new ManFarmerRevReport(fint, yes, zip, "zip");

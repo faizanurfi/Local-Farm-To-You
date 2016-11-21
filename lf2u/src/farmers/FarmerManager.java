@@ -31,25 +31,25 @@ public class FarmerManager implements Finterface {
 
 	public Farmer viewAccount(int fid) {
 		Farmer x = findByID(fid);
-		return x;
+		return (x);
 	}//done
 
 	public Farmer [] viewFarmers(String zip) {
 		List<Farmer> newFList = farmers;
 		Farmer [] rf = (Farmer[]) newFList.toArray();
-		return rf;
+		return (rf);
 	}
 	
 	public Farmer [] viewAllFarmers(){
 		List<Farmer> newFList = farmers;
 		Farmer [] rf = (Farmer[]) newFList.toArray();
-		return rf;
+		return (rf);
 	}//done
 
 	public double viewDeliveryCharge(int fid) {
 		Farmer x = findByID(fid);
 		double rtd = x.getDeliveryCharge();
-		return rtd;
+		return (rtd);
 	}//done
 
 	public void updateDeliveryCharge(int fid, double dc) {
@@ -61,7 +61,7 @@ public class FarmerManager implements Finterface {
 	public Catalog viewFarmStore(int fid) {
 		Farmer x = findByID(fid);
 		Catalog fc = x.getFarmerCatalog();
-		return fc;
+		return (fc);
 	}//done
 
 	public void addProductToStore(int fid, Product p) {
@@ -78,7 +78,7 @@ public class FarmerManager implements Finterface {
 	public Product viewStoreProductDetail(int fid, int fspid) {
 		Farmer x = findByID(fid);
 		Product p = x.getFarmerCatalog().findProduct(fspid);
-		return p;
+		return (p);
 	}//done
 	
 	public Product getProductByID(int gcpid){
@@ -90,7 +90,7 @@ public class FarmerManager implements Finterface {
 				break;
 			}
 		}
-		return p;
+		return (p);
 	}//done
 	
 	public void addOrderToList(Order o){
@@ -99,7 +99,7 @@ public class FarmerManager implements Finterface {
 	
 	public List<Order> getOrderList(int fid){
 		List<Order> rl = findByID(fid).getOrderList();
-		return rl;
+		return (rl);
 	}//done	
 	
 	public Report getReport(int fid, int frid, String sd, String ed) {
@@ -116,7 +116,7 @@ public class FarmerManager implements Finterface {
 			FarmerReport fr = new FarmerRevenueReport(fid, frid, sd, ed);
 			r = fr;
 		}
-		return r;
+		return (r);
 	}//done
 	
 	public Report getReport(int fid, int frid) {
@@ -129,11 +129,11 @@ public class FarmerManager implements Finterface {
 			FarmerReport fr = new DeliverTomorrowReport(fid,frid);
 			r = fr;
 		}
-		return r;
+		return (r);
 	}//done
 	
 	public FarmerReport[] getAllReports(){
-		return this.fra;
+		return (this.fra);
 	}//done
 	
 
@@ -145,7 +145,7 @@ public class FarmerManager implements Finterface {
 				break;
 			}
 		}
-		return x;
+		return (x);
 	}
 	
 	public void setToID(int fid, Farmer x){
@@ -176,7 +176,7 @@ public class FarmerManager implements Finterface {
 	public Farm [] getFarmList(){
 		List<Farm> newList = farmList;
 		Farm [] f = (Farm []) newList.toArray();
-		return f;
+		return (f);
 	}
 	
 	public void addToFarmList(Farm f){
@@ -246,10 +246,10 @@ public class FarmerManager implements Finterface {
 				break;
 			}
 		}
-		return f;
+		return (f);
 	}
 	
 	public Farm [] searchFWO(){
-		return this.getFarmList();
+		return (this.getFarmList());
 	}
 }

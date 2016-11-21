@@ -35,7 +35,7 @@ public class ManFarmerRevReport {
 				if(o.getDeliveryStatus()){
 					orders_delivered++;
 					total_revenue += o.getTotalPrice();
-					products_revenue += o.getProductPrice();
+					products_revenue += o.getProductsPrice();
 					delivery_revenue += x.getDeliveryCharge();
 					lf2u_fees = 0.03*total_revenue;
 					payable_to_farm = total_revenue - lf2u_fees;
@@ -62,7 +62,7 @@ public class ManFarmerRevReport {
 				if(o.getDeliveryStatus()){
 					orders_delivered++;
 					total_revenue += o.getTotalPrice();
-					products_revenue += o.getProductPrice();
+					products_revenue += o.getProductsPrice();
 					delivery_revenue += x.getDeliveryCharge();
 					lf2u_fees = 0.03*total_revenue;
 					payable_to_farm = total_revenue - lf2u_fees;
@@ -90,7 +90,7 @@ public class ManFarmerRevReport {
 				if(o.getDeliveryStatus()){
 					orders_delivered++;
 					total_revenue += o.getTotalPrice();
-					products_revenue += o.getProductPrice();
+					products_revenue += o.getProductsPrice();
 					delivery_revenue += x.getDeliveryCharge();
 					lf2u_fees = 0.03*total_revenue;
 					payable_to_farm = total_revenue - lf2u_fees;

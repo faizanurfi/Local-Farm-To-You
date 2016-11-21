@@ -24,7 +24,7 @@ public class ManagerManager implements Minterface {
 		List<Product> l = gc.getCatalogList();
 		Product [] arr = new Product[l.size()];
 		arr = l.toArray(arr);
-		return arr;
+		return (arr);
 	}//done
 	
 	public Product getProductByID(int gcpid){
@@ -36,7 +36,7 @@ public class ManagerManager implements Minterface {
 				break;
 			}
 		}
-		return p;
+		return (p);
 	}//done
 
 	public void addProductToCatalog(Product p) {
@@ -51,7 +51,7 @@ public class ManagerManager implements Minterface {
 	public Manager[] viewAllManagers() {
 		List<Manager> mlist = managers;
 		Manager [] marr = (Manager[]) mlist.toArray();
-		return marr;
+		return (marr);
 	}//done
 
 	public Manager viewAccount(int mid) {
@@ -64,7 +64,7 @@ public class ManagerManager implements Minterface {
 			ManagerReport mr = new RevenueYesterdayZip(mrid, zip);
 			r = mr;
 		}
-		return r;
+		return (r);
 	}//done
 	
 	public Report getReport(int mrid){
@@ -85,7 +85,7 @@ public class ManagerManager implements Minterface {
 			ManagerReport mr = new RevenueYesterday(mrid);
 			r = mr;
 		}
-		return r;
+		return (r);
 	}//done
 	
 	public ManagerReport[] getAllReports(){
@@ -100,7 +100,7 @@ public class ManagerManager implements Minterface {
 				break;
 			}
 		}
-		return x;
+		return (x);
 	}
 	
 	private void setProdToID(int gcpid, Product p){
@@ -123,7 +123,7 @@ public class ManagerManager implements Minterface {
 				break;
 			}
 		}
-		return x;
+		return (x);
 	}
 	
 	public void updateDeliveryOfOrderInList(boolean b, int oid){
@@ -141,6 +141,6 @@ public class ManagerManager implements Minterface {
 	
 	public Order[] getAllOrders(){
 		Order[] oarr = (Order[]) orders.toArray();
-		return oarr;
+		return (oarr);
 	}
 }

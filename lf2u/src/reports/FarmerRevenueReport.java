@@ -34,7 +34,7 @@ public class FarmerRevenueReport extends FarmerReport{
 				}
 				if(o.getDeliveryStatus() == true){
 					this.orders_delivered++;
-					this.products_revenue += o.getProductPrice();
+					this.products_revenue += o.getProductsPrice();
 					this.delivery_revenue += fi.viewDeliveryCharge(fid);
 				}
 			}
