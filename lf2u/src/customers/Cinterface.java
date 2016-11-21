@@ -19,9 +19,4 @@ public interface Cinterface {
 	Customer [] searchCWO();
 	Order searchO(String k);
 	Order [] searchOWO();
-	
-	//List<Farmer> getFarmersThatDeliver();
-	//List<Product> getFarmerProducts();
-	//List<Product> getAvailDelivery();
-	//List<Farmer> getFarmersByProduct();
 }

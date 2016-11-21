@@ -496,6 +496,5 @@ public class RestApiService {
         return Response.status(Response.Status.OK).entity(s).build();		
     }
     
-    //delivery API completed
-    
+    //delivery API completed 
 }
