@@ -1,7 +1,10 @@
-package rest_controller;
+package rest_service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.Arrays;
+
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -14,7 +17,7 @@ import products.*;
 import order.*;
 
 @Path("")
-public class REST_controller {
+public class RestApiService {
 	
 	Cinterface ci = new CustomerManager();
 	Finterface fi = new FarmerManager();
@@ -35,7 +38,7 @@ public class REST_controller {
         String [] dz = new String[dzjson.length()];
         Farm fa = new Farm();
         for(int i=0; i<dz.length; i++){
-        	String o = dzjson.getJSONObject(i).toString();
+        	String o = dzjson.getString(i);
         	dz[i] = o;
         }
         if(obj.getJSONObject("farm_info").has("web")){
@@ -69,7 +72,7 @@ public class REST_controller {
         String [] dz = new String[dzjson.length()];
         Farm fa = new Farm();
         for(int i=0; i<dz.length; i++){
-        	String o = dzjson.getJSONObject(i).toString();
+        	String o = dzjson.getString(i);
         	dz[i] = o;
         }
         if(obj.getJSONObject("farm_info").has("web")){
@@ -95,6 +98,15 @@ public class REST_controller {
     public Response viewAllFarmerAccountsGET() {
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewAllFarmers());
+        return Response.status(Response.Status.OK).entity(s).build();
+    }
+    
+    @Path("/farmers/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewFarmerAccountGET(@PathParam("id") int fid) {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(fi.viewAccount(fid));
         return Response.status(Response.Status.OK).entity(s).build();
     }
     
@@ -161,19 +173,19 @@ public class REST_controller {
     	Product f = fi.viewStoreProductDetail(fid, fspid);
     	if(obj.has("note")){
     		String note = obj.getString("note");
-    		f.setName(note);
+    		f.setNode(note);
     	}
     	if(obj.has("start_date")){
     		String sd = obj.getString("start_date");
-    		f.setName(sd);
+    		f.setSD(sd);
     	}
     	if(obj.has("end_date")){
     		String ed = obj.getString("end_date");
-    		f.setName(ed);
+    		f.setED(ed);
     	}
     	if(obj.has("price")){
     		String p = obj.getString("price");
-    		f.setName(p);
+    		f.setPrice(Double.parseDouble(p));
     	}
     	if(obj.has("product_unit")){
     		String pu = obj.getString("product_unit");
@@ -181,7 +193,7 @@ public class REST_controller {
     	}
     	if(obj.has("image")){
     		String img = obj.getString("image");
-    		f.setName(img);
+    		f.setImg(img);
     	}
     	fi.setProductToID(fid, fspid, f);
     	return Response.ok().build();
@@ -391,6 +403,7 @@ public class REST_controller {
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewAllAccounts() {
         gson = new GsonBuilder().setPrettyPrinting().create();
+        mi.addManagers();
         String s = gson.toJson(mi.viewAllManagers());
         return Response.status(Response.Status.OK).entity(s).build();
     }
@@ -400,6 +413,7 @@ public class REST_controller {
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewAccount(@PathParam("id") int mid) {
         gson = new GsonBuilder().setPrettyPrinting().create();
+        mi.addManagers();
         String s = gson.toJson(mi.viewAccount(mid));
         return Response.status(Response.Status.OK).entity(s).build();
     }

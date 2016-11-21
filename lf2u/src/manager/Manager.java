@@ -6,10 +6,21 @@ public class Manager {
 	String create_date = "20161116";
 	String phone = "123-0987-659";
 	String email = "johnny.smith@example.com";
-	int id = 79;
+	int id;
+	static int sid = 1;
 	
 	public Manager(){
 		
+	}
+	
+	public Manager(String n, String cb, String cd, String p, String e){
+		this.name = n;
+		this.created_by = cb;
+		this.create_date = cd;
+		this.phone = p;
+		this.email = e;
+		id = sid;
+		sid++;
 	}
 	
 	public String getName(){

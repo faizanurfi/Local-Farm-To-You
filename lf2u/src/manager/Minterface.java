@@ -8,6 +8,7 @@ import java.util.List;
 import order.Order;
 
 public interface Minterface {
+	void addManagers();
 	Product [] viewCatalog();
 	Product getProductByID(int gcpid);
 	void addProductToCatalog(Product p);

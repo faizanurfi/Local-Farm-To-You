@@ -8,6 +8,7 @@ public class FarmerReport extends Report{
 		this.name = n;
 		this.frid = f;
 	}
+	public FarmerReport(){}
 	
 	public String getName(){
 		return this.name;

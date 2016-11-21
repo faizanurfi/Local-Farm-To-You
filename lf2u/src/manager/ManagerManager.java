@@ -18,7 +18,14 @@ public class ManagerManager implements Minterface {
 	private ManagerReport mr5 = new ManagerReport(1, "Revenue yesterday by zip code");
 	private ManagerReport [] mra = {mr1, mr2, mr3, mr4, mr5};
 	private static List<Order> orders = new ArrayList<Order>();
+	private Manager man1 = new Manager("Super User", "System", "20161116", "123-0987-659", "super.user@example.com");
+	private Manager man2 = new Manager("Johnny Smith", "SuperUser", "20161117", "123-456-7890", "johnny.smith@example.com");
 
+	public void addManagers(){
+		managers.add(man1);
+		managers.add(man2);
+	}
+	
 	public Product [] viewCatalog() {
 		GeneralCatalog gc = new GeneralCatalog();
 		List<Product> l = gc.getCatalogList();
@@ -50,7 +57,7 @@ public class ManagerManager implements Minterface {
 
 	public Manager[] viewAllManagers() {
 		List<Manager> mlist = managers;
-		Manager [] marr = (Manager[]) mlist.toArray();
+		Manager [] marr = mlist.toArray(new Manager[mlist.size()]);
 		return (marr);
 	}//done
 

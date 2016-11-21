@@ -36,13 +36,13 @@ public class FarmerManager implements Finterface {
 
 	public Farmer [] viewFarmers(String zip) {
 		List<Farmer> newFList = farmers;
-		Farmer [] rf = (Farmer[]) newFList.toArray();
+		Farmer [] rf = newFList.toArray(new Farmer[newFList.size()]);
 		return (rf);
 	}
 	
 	public Farmer [] viewAllFarmers(){
 		List<Farmer> newFList = farmers;
-		Farmer [] rf = (Farmer[]) newFList.toArray();
+		Farmer [] rf = newFList.toArray(new Farmer[newFList.size()]);
 		return (rf);
 	}//done
 
@@ -65,15 +65,8 @@ public class FarmerManager implements Finterface {
 	}//done
 
 	public void addProductToStore(int fid, Product p) {
-		Farmer x = findByID(fid);
-		x.getFarmerCatalog().addToCatalog(p);
-		setToID(fid, x);
+		findByID(fid).getFarmerCatalog().addToCatalog(p);
 	}//done
-
-	public void modifyStoreProduct(int fid, int fspid, Product p) {
-		Farmer x = findByID(fid);
-		x.getFarmerCatalog().setProdToID(fspid, p);
-	}//unimplemented: needs modification to take a particular parameter and updating it only
 
 	public Product viewStoreProductDetail(int fid, int fspid) {
 		Farmer x = findByID(fid);
@@ -102,17 +95,9 @@ public class FarmerManager implements Finterface {
 		return (rl);
 	}//done	
 	
-	public Report getReport(int fid, int frid, String sd, String ed) {
-		Report r = new Report();
-		if(frid == 701){
-			FarmerReport fr = new DeliverTodayReport(fid, frid);
-			r = fr;
-		}
-		else if(frid == 702){
-			FarmerReport fr = new DeliverTomorrowReport(fid,frid);
-			r = fr;
-		}
-		else if(frid == 703){
+	public FarmerReport getReport(int fid, int frid, String sd, String ed) {
+		FarmerReport r = new FarmerReport();
+		if(frid == 703){
 			FarmerReport fr = new FarmerRevenueReport(fid, frid, sd, ed);
 			r = fr;
 		}
@@ -132,8 +117,8 @@ public class FarmerManager implements Finterface {
 		return (r);
 	}//done
 	
-	public FarmerReport[] getAllReports(){
-		return (this.fra);
+	public Report[] getAllReports(){
+		return (fra);
 	}//done
 	
 

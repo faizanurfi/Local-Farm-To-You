@@ -15,12 +15,11 @@ public interface Finterface {
 	Farmer[] viewAllFarmers();
 	Catalog viewFarmStore(int fid);
 	void addProductToStore(int fid, Product p);
-	void modifyStoreProduct(int fid, int fspid, Product p);
 	Product viewStoreProductDetail(int fid, int fspid);
 	Product getProductByID(int gcpid);
 	void addOrderToList(Order o);
 	List<Order> getOrderList(int fid);
-	Report getReport(int fid, int frid, String sd, String ed);
+	FarmerReport getReport(int fid, int frid, String sd, String ed);
 	Report getReport(int fid, int frid);
 	Report [] getAllReports();
 	double viewDeliveryCharge(int fid);

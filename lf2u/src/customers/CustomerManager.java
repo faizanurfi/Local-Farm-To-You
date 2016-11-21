@@ -28,6 +28,8 @@ public class CustomerManager implements Cinterface {
 	}//done
 	
 	public void createOrder(int cid, Order o) {
+		Minterface mi = new ManagerManager();
+		mi.addOrderToList(o);
 		o.setCID(cid);
 		findByID(cid).getOrderList().add(o);
 		Finterface fi = new FarmerManager();

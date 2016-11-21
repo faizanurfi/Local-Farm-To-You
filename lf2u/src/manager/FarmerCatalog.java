@@ -10,11 +10,11 @@ public class FarmerCatalog extends Catalog {
 	protected List<Product> fcat;
 	
 	public FarmerCatalog(){
-		fcat = new ArrayList<Product>();
+		this.fcat = new ArrayList<Product>();
 	}
 
 	public void addToCatalog(Product x) {
-		fcat.add(x);
+		this.fcat.add(x);
 	}
 	
 	public List<Product> getCatalogList(){
