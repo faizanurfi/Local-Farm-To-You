@@ -15,15 +15,23 @@ public class ManagerManager implements Minterface {
 	private ManagerReport mr2 = new ManagerReport(2, "orders placed yesterday");
 	private ManagerReport mr3 = new ManagerReport(3, "Revenue for previous month");
 	private ManagerReport mr4 = new ManagerReport(4, "Revenue yesterday");
-	private ManagerReport mr5 = new ManagerReport(1, "Revenue yesterday by zip code");
+	private ManagerReport mr5 = new ManagerReport(5, "Revenue yesterday by zip code");
 	private ManagerReport [] mra = {mr1, mr2, mr3, mr4, mr5};
 	private static List<Order> orders = new ArrayList<Order>();
-	private Manager man1 = new Manager("Super User", "System", "20161116", "123-0987-659", "super.user@example.com");
-	private Manager man2 = new Manager("Johnny Smith", "SuperUser", "20161117", "123-456-7890", "johnny.smith@example.com");
-
-	public void addManagers(){
+	private Manager man1;
+	private Manager man2;
+	
+	
+	public ManagerManager(){
+		managers.clear();
+		Manager.sid = 1;
+		man1 = new Manager("Super User", "System", "20161116", "123-0987-659", "super.user@example.com");
 		managers.add(man1);
-		managers.add(man2);
+	}
+		
+	public void addManagers(){
+		//managers.add(man1);
+		//managers.add(man2);
 	}
 	
 	public Product [] viewCatalog() {
@@ -112,13 +120,15 @@ public class ManagerManager implements Minterface {
 	
 	private void setProdToID(int gcpid, Product p){
 		GeneralCatalog gc = new GeneralCatalog();
-		List<Product> gcl = gc.getCatalogList();
-		for(Product x: gcl){
+		int i = 0;
+		for(Product x: gc.getCatalogList()){
 			if(x.getGCPID() == gcpid){
-				x = p;
-				x.setGCPID(gcpid);
+				p.setGCPID(gcpid);
+				gc.getCatalogList().remove(i);
+				gc.getCatalogList().add(i, p);
 				break;
 			}
+			i++;
 		}
 	}
 	

@@ -36,7 +36,19 @@ public class FarmerManager implements Finterface {
 
 	public Farmer [] viewFarmers(String zip) {
 		List<Farmer> newFList = farmers;
-		Farmer [] rf = newFList.toArray(new Farmer[newFList.size()]);
+		List<Farmer> abc = new ArrayList<Farmer>();
+		boolean b = false;
+		for(Farmer f: newFList){
+			String [] x = f.getFarm().getDZip();
+			for(String s: x){
+				if(s.equals(zip)){
+					b = true;
+					break;
+				}
+			}
+			abc.add(f);
+		}
+		Farmer [] rf = abc.toArray(new Farmer[abc.size()]);
 		return (rf);
 	}
 	
@@ -134,22 +146,28 @@ public class FarmerManager implements Finterface {
 	}
 	
 	public void setToID(int fid, Farmer x){
+		int i=0;
 		for(Farmer f: farmers){
 			if(f.getID() == fid){
-				f = x;
-				f.setID(fid);
+				x.setID(fid);
+				farmers.remove(i);
+				farmers.add(i, x);
 				break;
 			}
+			i++;
 		}
 	}
 	
 	public void setOrderToID(int oid, Order o){
-		List<Order> ol = getOrderList(o.getFID());
-		for(Order x: ol){
+		int i=0;
+		for(Order x: getOrderList(o.getFID())){
 			if(x.getID() == oid){
-				x = o;
+				x.setID(oid);
+				getOrderList(o.getFID()).remove(i);
+				getOrderList(o.getFID()).add(i, x);
 				break;
 			}
+			
 		}
 	}
 	

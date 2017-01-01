@@ -1,9 +1,10 @@
-package rest_service;
+package lf2u.rest.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Arrays;
+//import java.util.Arrays;
+//import java.lang.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
@@ -29,8 +30,10 @@ public class RestApiService {
     @Path("/farmers")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createFarmerAccountPOST(String json) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createFarmerAccountPOST(String json) throws JSONException{
         JSONObject obj = new JSONObject(json);
+        try{
         String farmN = obj.getJSONObject("farm_info").getString("name");
         String farmA = obj.getJSONObject("farm_info").getString("address");
         String farmP = obj.getJSONObject("farm_info").getString("phone");
@@ -57,14 +60,20 @@ public class RestApiService {
         Finterface fi = new FarmerManager();
         fi.createAccount(f);
         String s = gson.toJson(f.getID());
-        return Response.status(Response.Status.OK).entity(s).build();	
+        return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateFarmerAccountPOST(@PathParam("id") int fid, String json) {
+    public Response updateFarmerAccountPOST(@Context UriInfo uriInfo, @PathParam("id") int fid, String json) throws JSONException{
         JSONObject obj = new JSONObject(json);
+        try{
         String farmN = obj.getJSONObject("farm_info").getString("name");
         String farmA = obj.getJSONObject("farm_info").getString("address");
         String farmP = obj.getJSONObject("farm_info").getString("phone");
@@ -89,49 +98,83 @@ public class RestApiService {
         
         Farmer f = new Farmer(farmerN, farmerP, farmerE, fa);
         fi.updateAccount(fid, f);
-        return Response.ok().build();	
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(fid));
+        String s = gson.toJson(f.getID());
+        return Response.created(builder.build()).entity(s).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewAllFarmerAccountsGET() {
+    public Response viewAllFarmerAccountsGET() throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewAllFarmers());
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewFarmerAccountGET(@PathParam("id") int fid) {
+    public Response viewFarmerAccountGET(@PathParam("id") int fid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewAccount(fid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers?zip={zip}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewFarmersByZipGET(@PathParam("zip") String zip) {
+    public Response viewFarmersByZipGET(@PathParam("zip") String zip) throws Exception{
+        try{
+        	System.out.println("faizan is my name "+zip);
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewFarmers(zip));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/products")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewFarmerProductsGET(@PathParam("id") int fid) {
+    public Response viewFarmerProductsGET(@PathParam("id") int fid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
-        String s = gson.toJson(fi.getOrderList(fid));
+        String s = gson.toJson(fi.viewFarmStore(fid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/products")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postProductToFarmStore(@PathParam("id") int fid, String json){
+    public Response postProductToFarmStore(@PathParam("id") int fid, String json) throws JSONException{
+        try{
     	JSONObject obj = new JSONObject(json);
         String gcpid = obj.getString("gcpid");
         Product p = fi.getProductByID(Integer.parseInt(gcpid));
@@ -163,12 +206,18 @@ public class RestApiService {
         fi.addProductToStore(fid, x);
         String r = gson.toJson(x.getFSPID());
         return Response.status(Response.Status.OK).entity(r).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }//do product unit
     
     @Path("/farmers/{id}/products/{fsid}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response modifyStoreProduct(@PathParam("id") int fid, @PathParam("fsid") int fspid, String json){
+    public Response modifyStoreProduct(@PathParam("id") int fid, @PathParam("fsid") int fspid, String json) throws JSONException{
+        try{
     	JSONObject obj = new JSONObject(json);
     	Product f = fi.viewStoreProductDetail(fid, fspid);
     	if(obj.has("note")){
@@ -197,61 +246,102 @@ public class RestApiService {
     	}
     	fi.setProductToID(fid, fspid, f);
     	return Response.ok().build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/products/{fsid}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFarmStoreProductDetails(@PathParam("id") int fid, @PathParam("fsid") int fspid) {
+    public Response getFarmStoreProductDetails(@PathParam("id") int fid, @PathParam("fsid") int fspid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewStoreProductDetail(fid, fspid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/reports")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllFarmerReports(@PathParam("id") int fid) {
+    public Response getAllFarmerReports(@PathParam("id") int fid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.getAllReports());
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/reports/{frid}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFarmerReport(@PathParam("id") int fid, @PathParam("frid") int frid) {
+    public Response getFarmerReport(@PathParam("id") int fid, @PathParam("frid") int frid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.getReport(fid, frid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/reports/{frid}?start_date={sd}&end_date={ed}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFarmerReportWithSDED(@PathParam("id") int fid, @PathParam("frid") int frid, @PathParam("sd") String sd, @PathParam("ed") String ed) {
+    public Response getFarmerReportWithSDED(@PathParam("id") int fid, @PathParam("frid") int frid, @PathParam("sd") String sd, @PathParam("ed") String ed) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.getReport(fid, frid, sd, ed));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/delivery_charge")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDeliveryCharge(@PathParam("id") int fid) {
+    public Response getDeliveryCharge(@PathParam("id") int fid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(fi.viewDeliveryCharge(fid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/farmers/{id}/delivery_charge")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateDeliveryCharge(@PathParam("id") int fid, String json){
+    public Response updateDeliveryCharge(@PathParam("id") int fid, String json) throws JSONException{
+        try{
     	JSONObject obj = new JSONObject(json);
     	double dc = obj.getDouble("delivery_charge");
     	fi.updateDeliveryCharge(fid, dc);
     	return Response.ok().build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     //farmer API completed
@@ -261,7 +351,8 @@ public class RestApiService {
     @Path("/customers")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createCustomerAccountPOST(String json) {
+    public Response createCustomerAccountPOST(String json) throws JSONException{
+        try{
         JSONObject obj = new JSONObject(json);
         String custN = obj.getString("name");
         String custA = obj.getString("street");
@@ -273,13 +364,19 @@ public class RestApiService {
         ci.createAccount(c);
 
         String s = gson.toJson(c.getID());
-        return Response.status(Response.Status.OK).entity(s).build();		
+        return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/customers/{id}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCustomerAccountPOST(@PathParam("id") int cid, String json) {
+    public Response updateCustomerAccountPOST(@PathParam("id") int cid, String json) throws JSONException{
+        try{
         JSONObject obj = new JSONObject(json);
         String custN = obj.getString("name");
         String custA = obj.getString("street");
@@ -289,22 +386,34 @@ public class RestApiService {
         
         Customer c = new Customer(custN, custZ, custA, custP, custE);
         ci.updateAccount(cid, c);
-        return Response.ok().build();	
+        return Response.ok().build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/customers/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewCustomerAccount(@PathParam("id") int cid) {
+    public Response viewCustomerAccount(@PathParam("id") int cid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(ci.viewAccount(cid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/customers/{id}/orders")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createOrder(@PathParam("id") int cid, String json) {
+    public Response createOrder(@PathParam("id") int cid, String json) throws JSONException{
+        try{
         JSONObject obj = new JSONObject(json);
         String strF = obj.getString("fid");
         int fid = Integer.parseInt(strF);
@@ -330,110 +439,173 @@ public class RestApiService {
         ci.createOrder(cid, o);
 
         String s = gson.toJson(o.getID());
-        return Response.status(Response.Status.OK).entity(s).build();		
+        return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/customers/{id}/orders")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewAllOrders(@PathParam("id") int cid){
+    public Response viewAllOrders(@PathParam("id") int cid) throws Exception{
+        try{
     	gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(ci.viewOrders(cid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/customers/{id}/orders/{oid}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewOrder(@PathParam("id") int cid, @PathParam("oid") int oid) {
+    public Response viewOrder(@PathParam("id") int cid, @PathParam("oid") int oid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(ci.viewOrderByID(cid, oid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
-    @Path("/customers/{id}/orders/{oid}")
+    @Path("/customers/{id}/orders/{oid}/cancel")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response cancelOrder(@PathParam("id") int cid, @PathParam("oid") int oid) {
+    public Response cancelOrder(@PathParam("id") int cid, @PathParam("oid") int oid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(ci.cancelOrder(cid, oid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     //customer API completed
     
-    //manager API completed
+    //manager API started
     
     @Path("/managers/catalog")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewCatalog() {
+    public Response viewCatalog() throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(mi.viewCatalog());
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/managers/catalog")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addProductToCatalog(String json) {
+    public Response addProductToCatalog(String json) throws JSONException{
+        try{
         JSONObject obj = new JSONObject(json);
         String name = obj.getString("name");
         Product p = new Product(name);
         mi.addProductToCatalog(p);
         
         String s = gson.toJson(p.getGCPID());
-        return Response.status(Response.Status.OK).entity(s).build();		
+        return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/managers/catalog/{id}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateProductGenCatalog(@PathParam("id") int gcpid, String json) {
+    public Response updateProductGenCatalog(@PathParam("id") int gcpid, String json) throws JSONException{
+        try{
         JSONObject obj = new JSONObject(json);
         String name = obj.getString("name");
         Product p = new Product(name);
         p.setGCPID(gcpid);
         mi.updateCatalogProduct(gcpid, p);
-        return Response.ok().build();		
+        return Response.ok().build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/managers/accounts")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewAllAccounts() {
+    public Response viewAllAccounts() throws Exception{
+	try{
         gson = new GsonBuilder().setPrettyPrinting().create();
-        mi.addManagers();
         String s = gson.toJson(mi.viewAllManagers());
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/managers/accounts/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewAccount(@PathParam("id") int mid) {
+    public Response viewAccount(@PathParam("id") int mid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
-        mi.addManagers();
         String s = gson.toJson(mi.viewAccount(mid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/managers/reports")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewAllReports() {
+    public Response viewAllReports() throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(mi.getAllReports());
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     @Path("/managers/reports/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewReport(@PathParam("id") int mrid) {
+    public Response viewReport(@PathParam("id") int mrid) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = gson.toJson(mi.getReport(mrid));
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }//also add method to get reports with SD ED
     
     //Manager API completed
@@ -443,7 +615,8 @@ public class RestApiService {
     @Path("/search?topic={word}&key={key}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response search(@PathParam("word") String w, @PathParam("key") String k) {
+    public Response search(@PathParam("word") String w, @PathParam("key") String k) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = "";
         if(w.equals("farm")){
@@ -456,12 +629,18 @@ public class RestApiService {
         	s = gson.toJson(ci.searchO(k));
         }
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
-    @Path("/search?topic={word}")
+    @Path("/search?topic={word}&key=")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchNoKey(@PathParam("word") String w) {
+    public Response searchNoKey(@PathParam("word") String w) throws Exception{
+        try{
         gson = new GsonBuilder().setPrettyPrinting().create();
         String s = "";
         if(w.equals("farm")){
@@ -474,6 +653,11 @@ public class RestApiService {
         	s = gson.toJson(ci.searchOWO());
         }
         return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(Exception js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     //search API completed
@@ -483,7 +667,8 @@ public class RestApiService {
     @Path("/delivery/{id}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateDeliveryStatus(@PathParam("id") int oid, String json) {
+    public Response updateDeliveryStatus(@PathParam("id") int oid, String json) throws JSONException{
+        try{
         JSONObject obj = new JSONObject(json);
         String name = obj.getString("status");
         if(name.equals("delivered")){
@@ -493,7 +678,12 @@ public class RestApiService {
         	mi.updateDeliveryOfOrderInList(false, oid);
         }
         String s = gson.toJson(mi.findOrder(oid).getDeliveryStatus());
-        return Response.status(Response.Status.OK).entity(s).build();		
+        return Response.status(Response.Status.OK).entity(s).build();
+        }
+        catch(JSONException js){
+            System.out.println(js.getMessage());
+            return null;
+        }
     }
     
     //delivery API completed 

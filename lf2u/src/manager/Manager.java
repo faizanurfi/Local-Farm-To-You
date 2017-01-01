@@ -10,7 +10,8 @@ public class Manager {
 	static int sid = 1;
 	
 	public Manager(){
-		
+		id = sid;
+		sid++;
 	}
 	
 	public Manager(String n, String cb, String cd, String p, String e){

@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-
-<servlet>
-    <servlet-name>Example REST API</servlet-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>lf2u</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>RestApi</servlet-name>
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 
 <init-param>
     <param-name>com.sun.jersey.config.property.packages</param-name>
-    <param-value>edu.iit.cs445.s2016.lamp</param-value>
+    <param-value>lf2u.rest.service</param-value>
 </init-param>
 
 <init-param>
@@ -19,8 +28,7 @@
 </servlet>
 
 <servlet-mapping>
-    <servlet-name>Example REST API</servlet-name>
+    <servlet-name>RestApi</servlet-name>
     <url-pattern>/*</url-pattern>
 </servlet-mapping>
-
 </web-app>
